@@ -1,0 +1,18 @@
+{
+  "name": "doitnode",
+  "version": "1.0.0",
+  "description": "",
+  "main": "ch02_02.js",
+  "dependencies": {
+    "moment": "^2.22.2",
+    "nconf": "^0.10.0",
+    "winston": "^3.1.0",
+    "winston-daily-rotate-file": "^3.5.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
