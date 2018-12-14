@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="card card-container">
+            <!-- <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120" alt="" /> -->
+            <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+            <p id="profile-name" class="profile-name-card"></p>
+            <form class="form-signin" method="post" action="/api/processlogin">
+                <span id="reauth-email" class="reauth-email"></span>
+                <input type="email" name="u_id" id="inputEmail" class="form-control" placeholder="Email address"
+                    required autofocus>
+                <input type="password" name="u_ps" id="inputPassword" class="form-control" placeholder="Password"
+                    required>
+
+                <div id="remember" class="checkbox">
+                    <label>
+                        <input type="checkbox" name="remember-me" value="remember-me"> Remember me
+                    </label>
+                </div>
+
+                <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Sign in</button>
+                <a href="#" class="forgot-password">
+                    Join
+                </a>
+            </form><!-- /form -->
+
+        </div><!-- /card-container -->
+    </div><!-- /container -->
+
+    <script>
+        function getCookie(cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';')[0];
+            var val = ca.split('=');
+            return val
+        }
+
+
+        var rememberCookie = getCookie(remember);
+        var rememberKeyCookie = rememberCookie[0];
+        var rememberKeyValue = rememberCookie[1];
+
+        if (rememberCookie[0] !== "") {
+            document.getElementById('inputEmail').value = rememberCookie[1]
+            document.querySelector("#remember > label > input[name='remember-me']").checked = true
+        }
+
+    </script>
+</body>
+
+</html>

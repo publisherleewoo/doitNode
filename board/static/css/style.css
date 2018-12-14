@@ -1,0 +1,13 @@
+.card-container{
+    max-width:300px;
+    margin: 50px auto 0px;
+}
+.profile-img-card{
+    display: block;
+    margin: 0 auto;
+}
+
+.top{
+    border-bottom:1px solid black;
+    
+}
