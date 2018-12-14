@@ -98,6 +98,36 @@ router.route('/process/adduser2').post(function (req, res) {
 
 
 
+router.route('/process/login').post(function (req, res) {
+    console.log('/process/login 라우팅 함수 호출됨.');
+    var paramId = req.body.id;
+    var paramPassword = req.body.password;
+
+    console.log('요청 파라미터 : ' + paramId + ',' + paramPassword)
+
+    authUser(paramId, paramPassword, function (err, rows) {
+        if (err) {
+            console.log('에러 발생 : ');
+            res.writeHead('200', { 'Content-Type': 'text/html;charset=utf8' });
+            res.write('<h2>에러 발생</h2>');
+            res.end();
+            return;
+        }
+
+        if (rows) {
+            console.dir(rows)
+            res.writeHead('200', { 'Content-Type': 'text/html;charset=utf8' });
+            res.write('<h1>사용자 조회 성공</h1>');
+            res.end();
+        } else {
+            console.log('에러 발생 : ');
+            res.writeHead('200', { 'Content-Type': 'text/html;charset=utf8' });
+            res.write('<h2>사용자 조회 실패</h2>');
+            res.end();
+        }
+    })
+})
+
 
 
 
@@ -136,7 +166,43 @@ var addUser = function (id, name, age, password, callback) {
 }
 
 
+var authUser = function (id, password, callback) {
+    console.log('authUser 호출됨 :' + id + ',' + password)
+    pool.getConnection(function (err, conn) {
+        if (err) {
+            if (conn) {
+                conn.release();
+            }
+            callback(err, null);
+            return;
+        }
+        console.log('데이터베이스 연결 스레드 아이디 : ' + conn.threadId)
 
+        var tablename = 'users';
+        var columns = ['id', 'name', 'age']
+        var exec = conn.query('select ?? from ?? where id = ? and password = ?', [columns, tablename, id, password], function (err, rows) {
+            conn.release();
+            console.log('실행된 SQL : ' + exec.sql);
+
+            if (err) {
+                callback(err, null);
+                return;
+            }
+
+            if (rows.length > 0) {
+                console.log('사용자 찾음')
+                callback(null, rows);
+            } else {
+                console.log('사용자 찾지못함')
+                callback(null, null);
+            }
+
+
+        });
+
+
+    })
+}
 
 
 
