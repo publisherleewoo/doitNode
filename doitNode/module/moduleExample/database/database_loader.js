@@ -13,8 +13,10 @@ function connect(app, config) {
     // 데이터베이스 연결
     console.log('데이터베이스 연결을 시도합니다.');
     mongoose.Promise = global.Promise;  // mongoose의 Promise 객체는 global의 Promise 객체 사용하도록 함
-    mongoose.connect(config.db_url);
+    mongoose.set('useCreateIndex', true)
+    mongoose.connect(config.db_url, { useNewUrlParser: true });
     database.db = mongoose.connection;
+
 
     database.db.on('error', console.error.bind(console, 'mongoose connection error.'));
     database.db.on('open', function () {
@@ -49,6 +51,7 @@ function createSchema(app, config) {
 
         database[curItem.schemaName] = curSchema;
         database[curItem.modelName] = curModel;
+
         console.log('스키마 [%s] , 모델 [%s] 생성됨.', curItem.schemaName, curItem.modelName)
 
     }
