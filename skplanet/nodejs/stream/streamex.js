@@ -3,7 +3,7 @@ var http = require('http')
 var server = http.createServer(function (req, res) {
     if (req.url = "/image.png") {
         res.writeHeader(200, { "Content-Type": "image/png" })
-        false.read~~
+        false.readStream
     }
 
     else if (req.url = "/music.mp3") {

@@ -51,6 +51,8 @@
   + resume()호출
 
 ~~~javascript
+//stream은 data,end이벤트가 필수다
+
 var is = fs.createReadStream(file); //파일 경로
 is.on('readable',function(){
     console.log('==READABLE EVENT')
