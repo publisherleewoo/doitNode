@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <title>Document</title>
+
+</head>
+
+<body>
+    <h1>
+        <%= title %>
+    </h1>
+    <ul>
+        <% cats.forEach(function(item) { %>
+        <li>
+            <%= item.title %>
+        </li>
+        <% }) %>
+    </ul>
+
+</body>
+
+</html>
