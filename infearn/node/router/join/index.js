@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var path = require('path')
 var mysql = require('mysql')
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 
 var connection = mysql.createConnection({
     host: 'localhost',
@@ -10,36 +12,50 @@ var connection = mysql.createConnection({
     password: '123456',
     database: 'test'
 })
-connection.connect()
 
+connection.connect(function (err) {
+    if (err) {
+        console.error('error connecting: ' + err.stack);
+        throw err
+    }
+    console.log('mysql 연결', connection.state, __dirname)
+});
 
 router.get('/', function (req, res) {
-
-    res.sendFile(path.join(__dirname, '../../public/join.html'))
+    res.render('join.ejs')
 })
 
-router.post('/', function (req, res) {
-    var body = req.body
-    var email = body.email;
-    var name = body.name;
-    var passwd = body.password;
-    var responseData = {};
+passport.use('local-join', new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password',
+    passReqToCallback: true
+}, function (req, email, password, done) {
+    console.log('local-join callback called')
+})
+)
 
-    var sql = { email: email, name: name, password: passwd }
-    var query = connection.query('insert into jsman set ?', sql, function (err, rows) {
-
-        if (err) {
-            throw err
-        }
-        if (rows[0]) {
-            responseData.result = 'ok';
-            responseData.data = rows[0]
-        } else {
-            responseData.result = 'fail';
-            responseData.data = null
-        }
+router.post('/',
+    passport.authenticate('local-join', {
+        successRedirect: '/main',
+        failureRedirect: '/join',
+        failureFlash: true
     })
-})
+);
 
+// router.post('/', function (req, res) {
+//     var body = req.body
+//     var email = body.email;
+//     var name = body.name;
+//     var passwd = body.password;
+
+//     var sql = { email: email, name: name, password: passwd }
+//     var query = connection.query('insert into jsman set ?', sql, function (err, rows) {
+//         console.log(rows)
+//         if (err) {
+//             console.log('mysql연결실패')
+//         }
+//         else res.render('welcome.ejs', { name: name, id: rows.insertId })
+//     })
+// })
 
 module.exports = router;
