@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    email:<input type="text">
+    <br /><button onclick="abc()">
+        버튼
+    </button>
+
+
+    <div id="demo"></div>
+    <script>
+
+        function abc() {
+            var vl = document.querySelector('input').value
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log('응답')
+                    document.getElementById("demo").innerHTML = this.responseText;
+                }
+            };
+            xhttp.open("get", "/search?value=" + vl, true);
+            xhttp.send();
+        }
+    </script>
+
+
+</body>
+
+</html>
