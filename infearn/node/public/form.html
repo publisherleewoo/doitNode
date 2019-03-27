@@ -1,38 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <meta charset="utf-8">
+    <title>email form</title>
 </head>
 
 <body>
+    <form action="/email/form" method="post">
+        email : <input type="text" name="email"><br />
+        <input type="submit">
+    </form>
 
-    email:<input type="text">
-    <br /><button onclick="abc()">
-        버튼
-    </button>
+    <button class="ajaxsend">ajaxsend</button>
+
+    <div class="result"></div>
 
 
-    <div id="demo"></div>
     <script>
+        document.querySelector('.ajaxsend').addEventListener('click', function () {
+            var inputdata = document.forms[0].elements[0].value;
+            sendAjax('http://127.0.0.1:3000/email/ajax', inputdata);
+        })
+        function sendAjax(url, data) {
+            var data = { 'email': data };
+            data = JSON.stringify(data);
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', url);
+            xhr.setRequestHeader('Content-Type', "application/json");
+            xhr.send(data);
+            console.log('data', data)
+            xhr.addEventListener('load', function () {
+                var result = JSON.parse(xhr.responseText);
+                var resultDiv = document.querySelector(".result");
+                console.log('result', result)
+                if (result.result !== "ok") resultDiv.innerHTML = "your email is not found"
+                else resultDiv.innerHTML = result.name;
 
-        function abc() {
-            var vl = document.querySelector('input').value
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    console.log('응답')
-                    document.getElementById("demo").innerHTML = this.responseText;
-                }
-            };
-            xhttp.open("get", "/search?value=" + vl, true);
-            xhttp.send();
+            });
         }
     </script>
-
 
 </body>
 
