@@ -4,9 +4,8 @@ const router = express.Router();
 
 
 router.get('/', function (req, res) {
-    console.log('메인')
-    console.log(req)
-    res.render('main.ejs')
+
+    res.render('main.ejs', { user: req.user })
 })
 
 
