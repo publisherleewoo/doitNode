@@ -22,22 +22,51 @@ connection.connect(function (err) {
 });
 
 router.get('/', function (req, res) {
-    res.render('join.ejs')
+    var msg;
+    var errMsg = req.flash('error')
+    if (errMsg) msg = errMsg;
+    res.render('join.ejs', { message: msg })
 })
+
+// 아래 local-join 세션이 잘처리되면 (done),  이것이작동된후, 맨아래 .post(/)가 작동
+passport.serializeUser(function (user, done) {
+    console.log('passport session save :', user.id)
+    console.log(user.id)
+    done(null, user.id);
+});
+
+passport.deserializeUser(function (id, done) {
+    console.log('passport session get id :', id)
+    done(null, id)
+})
+
 
 passport.use('local-join', new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password',
     passReqToCallback: true
 }, function (req, email, password, done) {
-    console.log('local-join callback called')
+    var query = connection.query('select * from jsman where email=?', [email], function (err, rows) {
+
+        if (err) { return done(err) } //에러
+        if (rows.length) {
+            console.log('existed user')
+            return done(null, false, { message: 'your email is already used' }) //아이디가 있다
+        } else {
+            var sql = { email: email, password: password }
+            var query = connection.query('insert into jsman set ?', sql, function (err, rows) {
+                if (err) throw err
+                return done(null, { email: email, id: rows.insertId }) //아이디가 없다
+            })
+        }
+    })
 })
 )
 
 router.post('/',
     passport.authenticate('local-join', {
-        successRedirect: '/main',
-        failureRedirect: '/join',
+        successRedirect: '/main',   //성공하면 main
+        failureRedirect: '/join',  //실패하면 join
         failureFlash: true
     })
 );

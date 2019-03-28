@@ -10,6 +10,7 @@ router.get('/', function (req, res) {
 router.use('/main', require('./main/main'))
 router.use('/email', require('./email/email'))
 router.use('/join', require('./join'))
+router.use('/login', require('./login'))
 
 
 module.exports = router
