@@ -21,7 +21,6 @@ passport.use('local-login', new LocalStrategy({ // local 전략을 세움
     passReqToCallback: false,
 }, (email, password, done) => {
 
-
     userModel.poolConnection(`SELECT * FROM jsman WHERE email=?`, [email])
         .then((r) => {
             if (r[0]) {
@@ -40,21 +39,14 @@ passport.use('local-login', new LocalStrategy({ // local 전략을 세움
         })
 }));
 
-
 router.get('/', function (req, res) {
     res.render('login.ejs')
 })
-
 
 router.post('/',
     passport.authenticate('local-login', {
         successRedirect: '/main',
         failureRedirect: '/login'
     }));
-
-
-
-
-
 
 module.exports = router

@@ -5,5 +5,6 @@ module.exports = {
         password: '123456',
         database: 'test'
     },
+    secret: 'DJOqwd!@OJ@#(!@DJWQ@!#DWQ:'
 
 }

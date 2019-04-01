@@ -12,7 +12,6 @@ router.get('/', function (req, res) {
 
 router.post('/check', function (req, res) {
     var { email, name, password } = req.body;
-
     userModel.poolConnection(`SELECT * FROM jsman WHERE email=?`, [email])
         .then(r => {
             if (!r[0]) {
