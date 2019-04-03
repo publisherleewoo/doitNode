@@ -1,11 +1,9 @@
 const express = require('express')
 const app = express()
 const port = process.env.PORT || 3000;
-const router = express.Router();
+const router = require('./route/router');
+
 app.use(router)
-router.get('/', (req, res) => {
-    res.send('홈페이지에 방문하신것을 환영')
-})
 
 app.listen(port, (err) => {
     if (err) {
