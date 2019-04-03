@@ -3,6 +3,13 @@ const app = express()
 const port = process.env.PORT || 3000;
 const router = require('./route/router');
 const bodyParser = require('body-parser')
+const mongoose = require('mongoose');
+
+// mongoose.Promise = global.Promise
+mongoose.connect('mongodb://localhost/howl')
+
+
+
 
 // parse application/x-www-form-urlencoded  
 //false를주면 String Object로 받는다.
