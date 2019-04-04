@@ -2,6 +2,25 @@ const express = require('express');
 const router = express.Router();
 const user = require('../controller/user')
 const auth = require('../auth/auth')
+
+const path = require('path')
+
+router.get('/home', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', 'view', 'index.html'))
+})
+
+
+router.get('/image', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', 'images', 'backgound.jpg'))
+})
+
+
+
+
+
+
+
+
 router.route('/user')
     .post(user.createUser)
     .get(auth.isBasicAuthenticated, user.readUser)
@@ -10,7 +29,7 @@ router.route('/user')
 
 router.route('/test')
     .get((req, res) => {
-        //보안상 비추
+        //보안상비추
         console.log('도착')
         console.log(req.query)
         res.send('확인')

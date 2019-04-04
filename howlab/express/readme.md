@@ -1,4 +1,4 @@
-몽고 진입방법: 터미널에서 mongo
+몽고 진입방법:monogd후 터미널에서 mongo
 
 show dbs
 
