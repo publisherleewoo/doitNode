@@ -2,24 +2,16 @@ const express = require('express');
 const router = express.Router();
 const user = require('../controller/user')
 const auth = require('../auth/auth')
-
 const path = require('path')
 
 router.get('/home', function (req, res) {
-    res.sendFile(path.join(__dirname, '..', 'view', 'index.html'))
+    console.log(path.resolve(__dirname, '..', 'view', 'index.html'))
+    res.sendFile(path.resolve(__dirname, '..', 'view', 'index.html'))
 })
-
 
 router.get('/image', function (req, res) {
-    res.sendFile(path.join(__dirname, '..', 'images', 'backgound.jpg'))
+    res.sendFile(path.resolve(__dirname, '..', 'images', 'backgound.jpg'))
 })
-
-
-
-
-
-
-
 
 router.route('/user')
     .post(user.createUser)
